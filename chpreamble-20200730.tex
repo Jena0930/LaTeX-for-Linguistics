@@ -1,0 +1,163 @@
+%% layout ------------------------------------------------------
+
+\usepackage{fullpage}
+\usepackage{geometry}  % See geometry.pdf to learn the layout options. There are lots.
+%\geometry{landscape} % Activate for for rotated page geometry
+\setlength{\parskip}{0.6ex}
+\usepackage{fancyhdr}
+%\pagestyle{fancy}
+\usepackage{authblk}
+
+
+%% input ---------------------------------------------------------
+%%language and fonts
+\usepackage[utf8]{inputenc}
+%This is the encoding for the document. It can be omitted or changed to another encoding but utf-8 is recommended. Unless you specifically need another encoding, or if you are unsure about it, add this line to the preamble.
+\usepackage[no-math]{fontspec} %--> doesn't like tipa
+%[no-math] is used for easy use of superscript and subscript
+\usepackage{microtype}
+%for better text justification
+
+
+\usepackage[british]{babel}
+%\usepackage{xeCJK} %compiler needs to be changed to Xe(La)Tex
+%\setCJKmainfont{KaiTi} %Simsun 宋体
+\usepackage{xpinyin}
+%\xpinyinsetup{pysep={}}
+
+\AtBeginDocument{
+\newcommand{\p}[1]{\pinyin{#1}}
+\newcommand{\ip}[1]{\pinyin[format={\it}]{#1}}
+\newcommand{\bp}[1]{\pinyin[format={\bf}]{#1}}
+}
+
+\usepackage[normalem]{ulem} %for underline permitting line break
+% \sout{} for striked out; \xout{} for crossed out; 
+% \uline{} for underline; \uuline{} for double underline; \uwave{} for waved line; \dashuline{} for dashed line; \dotuline{} for dotted line
+\usepackage{multicol}
+% see documentation for adjusting the space between columns
+\usepackage{multirow}
+
+%%color, graphic
+\usepackage[x11names]{xcolor}
+\usepackage{graphicx}
+% \graphicspath{...} can direct Latex to the folder of images. This line should be put under \usepackage{graphicx} in the preamble field. \includegraphics{...} is the real command used in the document.
+\usepackage{url} %use to typeset URLs properly
+
+\usepackage{placeins}
+% in combination with the command \FloatBarrier to prevent floating text on top of a table/tables.
+
+\usepackage{hyperref}
+\hypersetup{
+	colorlinks=true,
+	linkcolor=blue,
+	filecolor=magenta, 
+	urlcolor=blue,
+	citecolor=black,
+}
+
+\usepackage{verbatim}
+% the following command enables indentation of texts in verbatim environment.
+\newlength\myverbindent 
+\setlength\myverbindent{1in} % change this to change indentation
+\makeatletter
+\def\verbatim@processline{%
+	\hspace{\myverbindent}\the\verbatim@line\par}
+\makeatother
+%use the following two packages for line-break in verbatim environment
+\usepackage{fancyvrb}
+\usepackage{fvextra}
+% Don't forget to add [breaklines=true] after \begin{Verbatim}. Note that v must be changed into a capital letter.
+\makeatletter
+\fvset{breaklines=true,tabsize=4}
+
+%%  linguistic packages -------------------------------------------
+%\usepackage{ling-macros}
+%% tree ---
+\usepackage[linguistics]{forest}
+\AtBeginDocument{
+	\forestset{
+		nice nodes/.style={
+			for tree={
+				inner sep=1pt, s sep=12pt,
+				fit=band,  %align the nodes (more or less)
+			},
+		},
+		default preamble=nice nodes,
+	}
+}
+
+% mvt drawing with forest
+\def\centerarc[#1](#2)(#3:#4:#5)% Syntax: [draw options] (center) (initial angle:final angle:radius)
+{ \draw[#1] ($(#2)+({#5*cos(#3)},{#5*sin(#3)})$) arc (#3:#4:#5); }
+\newcommand\phase[2][]{\centerarc[#1]($(#2.center)-(90:.75)$)(35:160:1.0)}
+
+
+%% glossing ---
+\usepackage{gb4e} %for examples; if fed up with gb4e, try XePex package
+\noautomath % you should always declare this after loading gb4e
+%\usepackage{cgloss} %remove the extra space in the preamble and before the translation line
+
+% The three commands below help number examples in fn. with roman i), ii), etc.
+\makeatletter
+\pretocmd{\@footnotetext}{
+	\@noftnotefalse\setcounter{fnx}{0}%
+	\renewcommand{\thexnumi}{\roman{xnumi}}
+}{}{}
+\apptocmd{\@footnotetext}{
+	\@noftnotetrue
+	\renewcommand{\thexnumi}{\arabic{xnumi}}
+}{}{}
+
+
+\usepackage[mcolblock]{leipzig}
+\newleipzig{de}{de}{de1 的}
+\newleipzig{sub}{sub}{subordinate operator}
+\newleipzig{sfp}{sfp}{sentence final particle}
+\newleipzig{exp}{exp}{experiential aspect}
+\newleipzig{shi}{shi}{focus marker shi}
+\newleipzig{ba}{ba}{ba}
+\newleipzig{red}{red}{reduplication}
+\newleipzig{tm}{tm}{topic marker}
+%\usepackage{glossary-long}
+%\setglossarystyle{long}
+
+\makeglossaries %activate to make glossaries in the end
+
+
+\usepackage{tipa} %ipa --> fontspec has problem with tipa
+\usepackage{vowel}
+\usepackage{tikz}
+%\usepackage{tikz-qtree}
+
+
+\usepackage{amsmath} %to enlarge the inventory of your symbols
+\usepackage{amssymb}
+\usepackage{MnSymbol} %for the meaning bracket
+
+%%citation -----------------------
+
+%\usepackage[backend=biber,style=apa,natbib=true]{biblatex}
+%\DeclareLanguageMapping{british}{british-apa}
+%\usepackage{csquotes}
+%\addbibresource{}
+\usepackage{apacite}
+\AtBeginDocument{%
+	\renewcommand{\BBAY}{{} }%% punctuation between authors and year
+	\renewcommand{\BBN}{: }%% punctuation between year and page number
+	\renewcommand{\BBYY}{, }%% punctuation between multiple years
+}
+
+% This is needed because the default authoryear style puts "In:"
+% before a journal name, which is not standard in linguistics styles. So this code gets rid of that.
+%\renewbibmacro{in:}{\ifentrytype{article}{}{\printtext{\bibstring{in}\intitlepunct}}}
+
+%% notes ----------------
+\usepackage[colorinlistoftodos]{todonotes}
+\setuptodonotes{inline}
+\newcommand{\todor}[1]{\todo[color=LightBlue1]{R: #1}}
+\newcommand{\todod}[1]{\todo[color=Gold2]{D: #1}}
+\newcommand{\todoi}[1]{\todo[color=MistyRose1]{I: #1}}
+\newcommand{\todoq}[1]{\todo[color=OliveDrab3]{Q: #1}}
+\newcommand{\todow}[1]{\todo[color=DeepPink1!65]{W: #1}}
+\usepackage{marginnote}
